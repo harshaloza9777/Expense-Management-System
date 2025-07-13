@@ -1,0 +1,58 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+
+public class Explain_Reimbursement_Claim_Form {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Setup
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // Open login page
+        driver.get("https://crmexp.cerebulb.com/login");
+
+        // Enter Email
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+              .sendKeys("rohan.parikh@cerebulb.com");
+
+        // Enter Password
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+              .sendKeys("Cerebulb@123");
+
+        // Click Login
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+              .click();
+
+        // Wait for dashboard and click 'Add New Expense'
+        Thread.sleep(2000); // optional wait
+        driver.findElement(By.xpath("//a[normalize-space()='Add New Expense']")).click();
+
+        // Wait for form page to load
+        Thread.sleep(2000);
+
+        // Set Trip Start Date to 2025-07-08 using JavaScript
+        setDateInFlatpickr(driver, "Trip Start Date *", "2025-07-08");
+
+        Thread.sleep(3000); // to observe result
+        driver.quit();
+    }
+
+    public static void setDateInFlatpickr(WebDriver driver, String placeholderText, String dateValue) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        String script = "let input = document.querySelector(\"input[placeholder='" + placeholderText + "']\");" +
+                        "input._flatpickr.setDate('" + dateValue + "', true);";
+
+        js.executeScript(script);
+    }
+}

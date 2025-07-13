@@ -1,0 +1,278 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.time.Duration;
+
+public class MyFirstTest {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+
+		// Set implicit wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+		// Open login page
+		driver.get("https://crmexp.cerebulb.com/login");
+
+		// Email field
+		driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+				.sendKeys("rohan.parikh@cerebulb.com");
+
+		// Password field
+		driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+				.sendKeys("Cerebulb@123");
+
+		// Login button
+		driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+				.click();
+
+		// Click on 'Add New Expense' using JavaScript to avoid intercepted click
+		WebElement addExpenseBtn = driver.findElement(By.xpath("//a[normalize-space()='Add New Expense']"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", addExpenseBtn);
+
+		// System.out.println("welcome");
+
+		WebElement dateInput = driver.findElement(By.xpath("//input[@placeholder='Trip Start Date *']"));
+		dateInput.click();
+		Thread.sleep(1000);
+
+//Select date (example: 15)
+		WebElement dateToSelect = driver.findElement(By.xpath("/html/body/div[3]/div[2]/div/div[2]/div/span[5]"));
+		dateToSelect.click();
+
+// End date
+
+		WebElement dateInput1 = driver.findElement(By.xpath("//input[@placeholder='Trip Completion Date *']"));
+		dateInput1.click();
+		Thread.sleep(1000);
+
+//Select date (example: 15)
+		WebElement dateToSelect1 = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div/div[2]/div/span[10]"));
+		dateToSelect1.click();
+
+////New Trip member
+
+		// CLICK dropdown (Full XPath)
+		WebElement dropdownOpen = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[1]/div/div[1]/div/div[3]/div/div/div/div[5]"));
+		dropdownOpen.click();
+		Thread.sleep(1000); // Wait for dropdown to open
+
+		// Click Rutvik Sharma
+		Thread.sleep(1000); // wait for dropdown to appear
+
+		// Select 'Rutvik Sharma'
+		WebElement rutvikSelect = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[text()='Rutvik Sharma']"));
+		rutvikSelect.click();
+
+		/// Client
+
+		// 1. Click on the Client dropdown
+		WebElement clientDropdown = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[1]/div/div[1]/div/div[4]/div/div/div/div[5]"));
+		clientDropdown.click();
+		Thread.sleep(1000); // wait for dropdown options to appear
+
+		// Step 2: Select 'HH. (CLT-2025-000032)' like Rutvik Sharma
+		WebElement clientSelect = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[text()='HH. (CLT-2025-000032)']"));
+		clientSelect.click();
+
+		// Step: Enter text in "Purpose Of Trip" field
+		WebElement purposeInput = driver.findElement(By.xpath("//input[@placeholder='Purpose Of Trip *']"));
+		purposeInput.sendKeys("Client Visit to Delhi Office");
+
+		// Step: Enter text in "Trip Description" field
+		WebElement tripDescriptionInput = driver.findElement(By.xpath("//input[@placeholder='Trip Description *']"));
+		tripDescriptionInput.sendKeys("Attending 3-day client strategy meeting in Delhi.");
+
+		//// Team Lead
+		// Step 1: Click on the Team Lead dropdown arrow icon
+		WebElement teamLeadDropdownIcon = driver.findElement(
+				By.xpath("//i[contains(@class,'v-select__menu-icon') and contains(@class,'ri-arrow-down-s-line')]"));
+		teamLeadDropdownIcon.click();
+		Thread.sleep(1000);
+
+		// Step 2: Click on 'Mahesh Makwana' from dropdown options
+		WebElement teamLeadOption = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[text()='Mahesh Makwana']"));
+		teamLeadOption.click();
+
+		/// project manager
+
+		// Step 1: Click on Project Manager dropdown
+		WebElement projectManagerDropdown = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[1]/div/div[1]/div/div[8]/div/div/div/div[3]/div"));
+		projectManagerDropdown.click();
+		Thread.sleep(1000); // Wait for dropdown to open
+
+		// Step 2: Click on 'Alok Sahijwani'
+		WebElement alokOption = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[text()='Alok Sahijwani']"));
+		alokOption.click();
+
+		// Step: Click on 'Save & Continue' button
+		WebElement saveContinueBtn = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[1]/div/div[2]/button/span[3]"));
+		saveContinueBtn.click();
+
+		//
+		// Step: Click the dropdown input (Date)
+		WebElement dropdownInput = driver.findElement(By.xpath(
+				"//*[@id=\"app\"]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[2]/div/div[1]/div/div[3]/div"));
+		dropdownInput.click();
+		Thread.sleep(1000); // Wait for dropdown to open
+
+		// Select date 05-07-2025 from dropdown
+		WebElement dateToSelect11 = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[contains(text(),'05-07-2025')]"));
+		dateToSelect11.click();
+
+//		// Step: Click the time input (Date)
+		WebElement dropdownInput1 = driver.findElement(By.xpath(
+				"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[2]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/div[1]/div[1]/div[1]/div[3]/div[1]"));
+		dropdownInput1.click();
+		Thread.sleep(1000);
+
+//				// Select time from dropdown
+		WebElement dropElement = driver.findElement(By.xpath("//div[contains(text(),'06:00 - 12:00')]"));
+		dropElement.click();
+
+		// Click on the categort dropdown input using relative XPath categort
+		WebElement dropdownInput11 = driver.findElement(By.xpath(
+				"//*[@id=\"app\"]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[4]/div/div[1]/div/div[3]"));
+		dropdownInput11.click();
+		Thread.sleep(1000);
+
+		// Click on the option "system"
+		WebElement dropElement1 = driver.findElement(By.xpath("//div[contains(text(),'Fuel')]"));
+		dropElement1.click();
+
+		// Click sub category dropdown
+		// Step 1: Click on the Sub Category input (using given relative XPath)
+		WebElement subCategoryInput = driver.findElement(By.xpath(
+				"//*[@id=\"app\"]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[5]/div/div[1]/div/div[3]/div"));
+		subCategoryInput.click();
+		Thread.sleep(1000); // Give time for dropdown to open
+
+		// Step 2: Click on sub-category option like "Diesel" (change text as needed)
+		WebElement dropElement11 = driver.findElement(By.xpath("//div[@class='v-list-item-title']"));
+		dropElement11.click();
+
+		// description = Done
+
+		// Locate the description input field
+		WebElement descriptionField = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[6]/div/div[1]/div/div[3]/input"));
+		descriptionField.click();
+		Thread.sleep(1000);
+
+		// Type "Meeting"
+		descriptionField.sendKeys("Meeting");
+
+		// amount= done
+
+		// 1. Locate the amount input field
+		WebElement amountField = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[7]/div/div[1]/div/div[3]/input"));
+
+		// 2. Click on the field
+		amountField.click();
+		Thread.sleep(500);
+
+		// 3. Type amount value
+		amountField.sendKeys("1500");
+
+		// // Locate the dropdown icon = small button
+		WebElement dropdownIcon1 = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[1]/td[8]/div/button[1]/span[3]/i"));
+
+		// Click on it
+		dropdownIcon1.click();
+		//
+		// Locate the payment dropdown field
+		WebElement paymentDropdown = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[1]/div/div[1]/div/div[3]/div"));
+
+		// Click to open dropdown
+		paymentDropdown.click();
+		Thread.sleep(1000);
+
+		// Step 2: Click on the 'Paid By Company' option from the overlay dropdown
+		WebElement paidByCompanyOption = driver
+				.findElement(By.xpath("//div[contains(@class,'v-overlay')]//div[normalize-space()='Paid By Company']"));
+		paidByCompanyOption.click();
+
+		// Locate the Trip Member dropdown input
+		WebElement tripMemberDropdown = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[2]/div/div[1]/div/div[3]/div/input"));
+
+		// Click the input to open dropdown
+		tripMemberDropdown.click();
+		Thread.sleep(1000);
+
+		// Select "Rohan Parekh" from dropdown
+		WebElement rohanParekhOption = driver
+				.findElement(By.xpath("/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]"));
+		rohanParekhOption.click();
+
+		// Locate the Client dropdown input field
+		WebElement clientDropdown1 = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[3]/div/div[1]/div/div[3]/div/input"));
+
+		// Click to open the dropdown
+		clientDropdown1.click();
+		Thread.sleep(1000);
+
+		// Step 2: Click the client option "HH. (CLT-2025-000032)"
+		WebElement hhClientOption = driver
+				.findElement(By.xpath("/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]"));
+		hhClientOption.click();
+
+		// Step 1: Locate the Location field input
+		WebElement locationDropdown = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[4]/div/div[1]/div/div[3]/input"));
+
+		// Step 2: Click to open dropdown
+		locationDropdown.click();
+		Thread.sleep(1000);
+
+		// Step: Enter "Mumbai" in Location Field
+		WebElement locationInput = driver.findElement(By.xpath(
+				"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[2]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[3]/input[1]"));
+		locationInput.sendKeys("Mumbai");
+
+		// Step: Enter "Project meeting notes" in Note field
+		WebElement noteInput = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[5]/div/div[1]/div/div[3]/input"));
+		noteInput.sendKeys("Project meeting notes");
+
+		/// Step 1: Find the element using XPath
+		WebElement attachmentIcon = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[6]/div/div[1]"));
+		attachmentIcon.click();
+
+		// Step 2: Upload PDF
+		WebElement fileUpload = driver.findElement(By.xpath("//input[@type='file']"));
+		fileUpload.sendKeys("C:\\Users\\Harshal Oza\\Downloads\\ahmedabad-dwarka.pdf");
+
+		WebElement saveBtn = driver.findElement(By.xpath(
+				"/html/body/div[1]/div/div/div/div/div[1]/main/div/div[2]/div/div/div[2]/form[2]/div[1]/div[1]/div/div/table/tbody/tr[2]/td/div/div/div/div[7]/button"));
+		saveBtn.click();
+
+		// Step: Close the browser window
+		driver.close();
+
+	}
+}

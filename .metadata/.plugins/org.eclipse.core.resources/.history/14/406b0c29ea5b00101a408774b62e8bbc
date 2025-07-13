@@ -1,0 +1,18 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Addnewexpance {
+    WebDriver driver;
+
+    public Addnewexpance(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    By addNewExpenseBtn = By.xpath("//a[contains(text(), 'Add New Expense')]");
+
+    public void clickAddNewExpense() {
+        driver.findElement(addNewExpenseBtn).click();
+    }
+}

@@ -1,0 +1,121 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+
+public class MyFirstTest {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Set implicit wait 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // Open login page
+        driver.get("https://crmexp.cerebulb.com/login");
+
+        // Email field
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+              .sendKeys("rohan.parikh@cerebulb.com");
+
+        // Password field
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+              .sendKeys("Cerebulb@123");
+
+        // Login button
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+              .click();
+        
+        // Click on 'Add New Expense' using JavaScript to avoid intercepted click
+        WebElement addExpenseBtn = driver.findElement(By.xpath("//a[normalize-space()='Add New Expense']"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addExpenseBtn);
+
+        // Click on ' Add New Expense'
+        WebElement addNewExpenseButton = driver.findElement(By.xpath("//span[normalize-space()='Add New Expense']"));
+        addNewExpenseButton.click();
+
+     // Step 1: Click date field using JS
+        WebElement tripStartDate = driver.findElement(By.cssSelector("input[placeholder='Trip Start Date *']"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", tripStartDate);
+
+        // Step 2: Wait and select date
+        Thread.sleep(1000); // Or use explicit wait
+        WebElement dateToSelect = driver.findElement(By.xpath("//span[@class='flatpickr-day' and @aria-label='July 9, 2025']"));
+        dateToSelect.click();
+
+     // Step 1: Click on the Trip Start Date input field using JavaScript
+        WebElement tripStartDate1 = driver.findElement(By.cssSelector("input[placeholder='Trip Start Date *']"));
+        JavascriptExecutor js1 = (JavascriptExecutor) driver;
+        js1.executeScript("arguments[0].click();", tripStartDate1);
+
+        // Step 2: Wait for calendar popup (or use explicit wait in real case)
+        Thread.sleep(1000);
+
+//new 
+
+        // STEP 1: Click on the Trip Start Date input field using JS
+        WebElement tripStartDate11 = driver.findElement(By.cssSelector("input[placeholder='Trip Start Date *']"));
+        JavascriptExecutor js11 = (JavascriptExecutor) driver;
+        js11.executeScript("arguments[0].click();", tripStartDate11);
+        
+        // STEP 2: Wait for calendar popup to load
+        Thread.sleep(1000);
+        
+        // STEP 3: Loop until calendar shows July 2025
+        while (true) {
+        	WebElement monthElement = driver.findElement(By.cssSelector(".flatpickr-current-month .cur-month"));
+        	WebElement yearElement = driver.findElement(By.cssSelector(".flatpickr-current-month .numInput.cur-year"));
+        	
+        	String currentMonth = monthElement.getText(); // e.g., "March"
+        	String currentYear = yearElement.getAttribute("value"); // e.g., "2025"
+        	
+        	if (currentMonth.equals("July") && currentYear.equals("2025")) {
+        		break;
+        	}
+        	
+        	// Click next month button
+        	WebElement nextBtn = driver.findElement(By.cssSelector(".flatpickr-next-month"));
+        	js11.executeScript("arguments[0].click();", nextBtn);
+        	Thread.sleep(500);
+        }
+        
+        // STEP 4: Select date 9 from the calendar (July 9, 2025)
+        WebElement dateToSelect1 = driver.findElement(By.xpath("//span[@aria-label='July 9, 2025' and contains(@class,'flatpickr-day')]"));
+        js11.executeScript("arguments[0].click();", dateToSelect1);
+        
+        // STEP 5: Confirm
+        System.out.println("Date set: " + tripStartDate11.getAttribute("value"));
+
+// add again
+     // Step 1: Locate the input element
+        WebElement tripStartDate = driver.findElement(By.cssSelector("input[placeholder='Trip Start Date *']"));
+
+        // Step 2: Set the date using Flatpickr’s API via JavaScriptExecutor
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // Format must match what Flatpickr expects — DD/MM/YYYY in your case
+        String desiredDate = "09/07/2025";
+
+        js.executeScript(
+            "if (arguments[0]._flatpickr) {" +
+            "  arguments[0]._flatpickr.setDate(arguments[1], true);" + // true = trigger change events
+            "} else { console.log('Flatpickr instance not found'); }",
+            tripStartDate,
+            desiredDate
+        );
+
+        // Step 3: (Optional) Confirm date was set
+        System.out.println("Date set via Flatpickr API: " + tripStartDate.getAttribute("value"));
+
+
+
+    }
+}

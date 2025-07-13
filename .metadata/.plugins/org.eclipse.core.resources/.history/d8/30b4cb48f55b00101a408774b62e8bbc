@@ -1,0 +1,70 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.time.Duration;
+
+public class Explain_Reimbursement_Claim_Form {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Setup browser
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // Step 1: Open login page
+        driver.get("https://crmexp.cerebulb.com/login");
+
+        // Step 2: Enter login credentials
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+              .sendKeys("rohan.parikh@cerebulb.com");
+
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+              .sendKeys("Cerebulb@123");
+
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+              .click();
+
+        // Step 3: Click "Add New Expense"
+        Thread.sleep(2000); // Let dashboard load
+        driver.findElement(By.xpath("//a[normalize-space()='Add New Expense']")).click();
+
+        // Step 4: Wait for form page to load
+        Thread.sleep(2000);
+
+        // Step 5: Click on Trip Start Date field to activate calendar
+        driver.findElement(By.xpath("//input[@placeholder='Trip Start Date *']")).click();
+
+        // Step 6: Wait for Flatpickr to initialize
+        Thread.sleep(1000);
+
+        // Step 7: Set date using JavaScript
+        setDateInFlatpickr(driver, "Trip Start Date *", "2025-07-08");
+
+        // Step 8: Wait to observe result then close browser
+        Thread.sleep(3000);
+        driver.quit();
+    }
+
+    // Function to set date into Flatpickr calendar using JavaScript
+    public static void setDateInFlatpickr(WebDriver driver, String placeholderText, String dateValue) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        String script =
+            "var input = document.querySelector(\"input[placeholder='" + placeholderText + "']\");" +
+            "if (input && input._flatpickr) {" +
+            "  input._flatpickr.setDate('" + dateValue + "', true);" +
+            "} else {" +
+            "  console.log('Flatpickr not initialized');" +
+            "}";
+
+        js.executeScript(script);
+    }
+}

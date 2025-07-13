@@ -1,0 +1,56 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.time.Duration;
+
+public class Explain_Reimbursement_Claim_Form {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Setup
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // ✅ NOTE: Start directly from form page
+        driver.get("https://crmexp.cerebulb.com/expenses/manage");
+
+        // Wait to load page fully
+        Thread.sleep(2000);
+
+        // Select Trip Start Date → 08 July 2025
+        selectDateFromCalendar(driver, "Trip Start Date *", "July", "2025", "8");
+
+        // Close after pause
+        Thread.sleep(3000);
+        driver.quit();
+    }
+
+    public static void selectDateFromCalendar(WebDriver driver, String fieldPlaceholder, String month, String year, String day) throws InterruptedException {
+        // Click calendar field
+        driver.findElement(By.xpath("//input[@placeholder='" + fieldPlaceholder + "']")).click();
+        Thread.sleep(1000);
+
+        // Navigate to correct month-year
+        while (true) {
+            String monthYear = driver.findElement(By.cssSelector(".flatpickr-current-month")).getText();
+            if (monthYear.contains(month) && monthYear.contains(year)) {
+                break;
+            }
+            driver.findElement(By.cssSelector(".flatpickr-next-month")).click();
+            Thread.sleep(500);
+        }
+
+        // Click on desired day
+        WebElement dateElement = driver.findElement(By.xpath("//span[contains(@class,'flatpickr-day') and text()='" + day + "']"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", dateElement);
+    }
+}

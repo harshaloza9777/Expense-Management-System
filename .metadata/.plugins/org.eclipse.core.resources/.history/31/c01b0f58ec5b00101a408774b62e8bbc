@@ -1,0 +1,34 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+public class Addnewexpance {
+    WebDriver driver;
+
+    public Addnewexpance(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    By addNewExpenseBtn = By.xpath("//a[contains(text(), 'Add New Expense')]");
+
+    public void clickAddNewExpense() {
+        WebElement element = driver.findElement(addNewExpenseBtn);
+
+        // Scroll to element using Actions
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
+
+        // Optional wait
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Click after scroll
+        element.click();
+    }
+}

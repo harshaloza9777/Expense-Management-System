@@ -1,0 +1,55 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+
+public class MyFirstTest {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Set implicit wait 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // Open login page
+        driver.get("https://crmexp.cerebulb.com/login");
+
+        // Email field
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+              .sendKeys("rohan.parikh@cerebulb.com");
+
+        // Password field
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+              .sendKeys("Cerebulb@123");
+
+        // Login button
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+              .click();
+        
+        // Click on 'Add New Expense' using JavaScript to avoid intercepted click
+        WebElement addExpenseBtn = driver.findElement(By.xpath("//a[normalize-space()='Add New Expense']"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addExpenseBtn);
+
+        // Click on ' Add New Expense'
+        WebElement addNewExpenseButton = driver.findElement(By.xpath("//span[normalize-space()='Add New Expense']"));
+        addNewExpenseButton.click();
+
+     // Step 1: Click date field using JS
+        WebElement tripStartDate = driver.findElement(By.cssSelector("input[placeholder='Trip Start Date *']"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", tripStartDate);
+
+        // Step 2: Wait and select date
+        Thread.sleep(1000); // Or use explicit wait
+        WebElement dateToSelect = driver.findElement(By.xpath("//span[@class='flatpickr-day' and @aria-label='July 9, 2025']"));
+        dateToSelect.click();
+
+    }
+}

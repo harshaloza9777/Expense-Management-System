@@ -1,0 +1,16 @@
+package Testcase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+public class Addnewexpance {
+	WebDriver driver;
+
+    public void AddExpensePage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    By addNewExpenseBtn = By.xpath("//*[@id=\"overview-dashboard\"]/div[2]/div[3]/div[2]/div[1]/a");
+
+    public void clickAddNewExpense() {
+        driver.findElement(addNewExpenseBtn).click();
+    }
+}

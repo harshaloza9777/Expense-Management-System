@@ -1,0 +1,20 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class Addnewexpance {
+    WebDriver driver;
+
+    // Correct constructor
+    public Addnewexpance(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    // Locator for Add New Expense button
+    By addNewExpenseBtn = By.xpath("/html/body/div[1]/div/div/div/div/div[1]/main/div/section/div[2]/div[3]/div[2]/div[1]/a");
+
+    public void clickAddNewExpense() {
+        driver.findElement(addNewExpenseBtn).click();
+    }
+}

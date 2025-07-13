@@ -1,0 +1,53 @@
+package Testcase;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+
+public class MyFirstTest {
+
+    public static void main(String[] args) {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        // Implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+
+        // Step 1: Open login page
+        driver.get("https://crmexp.cerebulb.com/login");
+
+        // Step 2: Enter email
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[1]/div/div/div/div[3]/input"))
+              .sendKeys("rohan.parikh@cerebulb.com");
+
+        // Step 3: Enter password
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/div[1]/div/div/div[3]/input"))
+              .sendKeys("Cerebulb@123");
+
+        // Step 4: Click login button
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[2]/div/div[3]/form/div/div[2]/button"))
+              .click();
+
+        // Step 5: Wait for page load (optional)
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Step 6: Define locator
+        By addNewExpenseButtonLocator = By.xpath("//a[contains(text(), 'Add New Expense')]");
+
+        // Step 7: Scroll and click
+        WebElement addNewExpenseButton = driver.findElement(addNewExpenseButtonLocator);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(addNewExpenseButton).perform();
+        addNewExpenseButton.click();
+    }
+}
