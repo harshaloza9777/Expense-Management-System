@@ -38,11 +38,11 @@ Using **Selenium WebDriver with Java**.
 
 ### 🔹 Step 1: Launch Browser & Open CRM URL
 - Launch Chrome using WebDriverManager  
-- Navigate to: `https://crmexp.cerebulb.com/login`
+- Navigate to: `https://crmexp.*****.com/login`
 
 ### 🔹 Step 2: Login to Application
-- Enter email: `rohan.parikh@cerebulb.com`  
-- Enter password: `Cerebulb@123`  
+- Enter email: `rohan.****h@*****.com`  
+- Enter password: `*****@*******`  
 - Click the **Login** button
 
 ### 🔹 Step 3: Navigate to Add Expense Page
